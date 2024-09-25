@@ -75,6 +75,9 @@ If you like this and other linear containers for Channels that I have created, p
 
 docker run -d --restart unless-stopped --network=host -e TUBI_PORT=[192.168.50.24] --name  tubi-for-channels ghcr.io/jgomez177/tubi-for-channels
 
+docker run -d --restart unless-stopped --network=host -e 7777=127.0.0.1 --name  tubi-for-channels ghcr.io/jgomez177/tubi-for-channels
+
+
 http://127.0.0.1:7777
 
 http://localhost:7777/tubi/playlist.m3u
@@ -87,9 +90,11 @@ docker logs ghcr.io/jgomez177/tubi-for-channels
 docker exec -it ghcr.io/jgomez177/tubi-for-channels /bin/bash
 apt-get update && apt-get install tcpdump
 
-docker buildx build --platform linux/amd64,linux/arm64 -t tubi-for-channels --load .
 docker buildx build --platform linux/amd64,linux/arm64 -t tubi-for-channels --push .
+docker buildx build --platform linux/amd64,linux/arm64 -t tubi-for-channels --load .
 docker pull --platform linux/arm64 tubi-for-channels
+docker tag tubi-for-channels kyleabr17/tubi-for-channels:latest
+
 
 docker buildx build --platform linux/amd64,linux/arm64 -t tubi-for-channels .
 
