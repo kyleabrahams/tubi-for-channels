@@ -24,13 +24,21 @@ This takes Tubi Live TV Channels and generates an M3U playlist and EPG XMLTV fil
 The recommended way of running is to pull the image from [GitHub](https://github.com/jgomez177/tubi-for-channels/pkgs/container/tubi-for-channels).
 
     docker run -d --restart unless-stopped --network=host -e TUBI_PORT=[your_port_number_here] --name  tubi-for-channels ghcr.io/jgomez177/tubi-for-channels
+
+    docker run -d --restart unless-stopped --network=host -e TUBI_PORT=7777 --name  tubi-for-channels ghcr.io/jgomez177/tubi-for-channels
+
 or
 
-    docker run -d --restart unless-stopped -p [your_port_number_here]:7777 --name  tubi-for-channels ghcr.io/jgomez177/tubi-for-channels
+    docker run -d --restart unless-stopped -p 80:7777 --name  tubi-for-channels ghcr.io/jgomez177/tubi-for-channels
 
 You can retrieve the playlist and EPG via the status page.
 
     http://127.0.0.1:[your_port_number_here]
+    http://192.168.50.24:7777
+
+    docker run -p 7777:7777 ghcr.io/jgomez177/tubi-for-channels
+
+    
 
 ## Environement Variables
 | Environment Variable | Description | Default |
@@ -64,3 +72,31 @@ Example
 If you like this and other linear containers for Channels that I have created, please consider supporting my work.
 
 [![](https://pics.paypal.com/00/s/MDY0MzZhODAtNGI0MC00ZmU5LWI3ODYtZTY5YTcxOTNlMjRm/file.PNG)](https://www.paypal.com/donate/?hosted_button_id=BBUTPEU8DUZ6J)
+
+docker run -d --restart unless-stopped --network=host -e TUBI_PORT=[192.168.50.24] --name  tubi-for-channels ghcr.io/jgomez177/tubi-for-channels
+
+docker run -d --restart unless-stopped --network=host -e 7777=127.0.0.1 --name  tubi-for-channels ghcr.io/jgomez177/tubi-for-channels
+
+
+http://127.0.0.1:7777
+
+http://localhost:7777/tubi/playlist.m3u
+
+http://192.168.50.24:7777/tubi/playlist.m3u
+
+
+docker logs ghcr.io/jgomez177/tubi-for-channels
+
+docker exec -it ghcr.io/jgomez177/tubi-for-channels /bin/bash
+apt-get update && apt-get install tcpdump
+
+docker buildx build --platform linux/amd64,linux/arm64 -t tubi-for-channels --push .
+docker buildx build --platform linux/amd64,linux/arm64 -t tubi-for-channels --load .
+docker pull --platform linux/arm64 tubi-for-channels
+docker tag tubi-for-channels kyleabr17/tubi-for-channels:latest
+
+
+docker buildx build --platform linux/amd64,linux/arm64 -t tubi-for-channels .
+
+
+
